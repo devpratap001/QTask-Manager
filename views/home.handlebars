@@ -1,0 +1,33 @@
+<main>
+    <div class="heading">
+        <h1>QTask Manager</h1>
+    </div>
+    <div class="content">
+        introducing the ultimate To-Do List app- your personalized task manager designed to streamline your day and
+        boost productivity. With a clean and intuitive interface, our app empowers you to effortlessly organize tasks,
+        set priorities, and track progress. Create, edit, and categorize tasks with ease, set due dates and reminders to
+        stay on track, and enjoy the satisfaction of checking off completed items. Whether you're managing work
+        projects, household chores, or personal goals, our app is a perfect
+    </div>
+    <div class="buttons">
+        <a class="btn" href="/register">Register</a>
+        <a class="btn" href="/login">login</a>
+    </div>
+</main>
+
+<script>
+    body = document.querySelector("body");
+    body.onload = () => {
+        const main = document.querySelector("main");
+        main.style = "transform: scaleY(1)"
+    }
+    const button = document.querySelectorAll(".btn");
+    button.forEach((_button) => {
+        _button.addEventListener("mousedown", () => {
+            _button.style = "background-color:grey;"
+        })
+        _button.addEventListener("mouseup", () => {
+            _button.style = "background-color:transparent;"
+        })
+    })
+</script>
