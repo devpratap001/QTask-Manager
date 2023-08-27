@@ -3,22 +3,68 @@
         <img src="/pnghut_login-user-profile-logo.png" alt="Sign Up" height="120px" width="120px">
     </div>
     <p>Create Account</p>
-    <form action="/login" method="post" id="form">
+    <form action="/login" method="post" id="form" onsubmit="return validateForm()">
         <div class="mainField">
-            <div class="fieldText">First Name </div> <input type="text" name="firstName" id="field" required>
+            <div class="fieldText">First Name <span class="error"></span></div> <input type="text" name="firstName"
+                id="field" required>
         </div>
         <div class="mainField">
-            <div class="fieldText">Last Name</div> <input type="text" name="lastName" id="field" required>
+            <div class="fieldText">Last Name <span class="error"></span></div> <input type="text" name="lastName"
+                id="field" required>
         </div>
         <div class="mainField">
             <div class="fieldText">Email</div> <input type="email" name="email" id="field" required>
         </div>
         <div class="mainField">
-            <div class="fieldText">Password</div> <input type="password" name="password" id="field" required>
+            <div class="fieldText">Password <span class="error"></span></div> <input type="password" name="password"
+                id="field" required>
         </div>
         <div class="mainField">
-            <div class="fieldText">Confirm Password</div> <input type="password" name="confPassword" id="field" required>
+            <div class="fieldText">Confirm Password <span class="error"></span></div> <input type="password"
+                name="confPassword" id="field" required>
         </div>
         <input type="submit" value="Register User">
     </form>
 </main>
+
+<script>
+    function validateForm() {
+        document.querySelectorAll(".error").forEach((item) => {
+            item.innerHTML = "";
+        });
+        let isPerfect = true;
+        const fName = document.forms[0]["field"][0].value;
+        const lName = document.forms[0]["field"][1].value;
+        const pass = document.forms[0]["field"][3].value;
+        const cPass = document.forms[0]["field"][4].value;
+        const errorField = document.querySelectorAll(".error");
+
+        if (/^[a-zA-Z]+$/.test(fName) === false) { 
+            isPerfect = false;
+            console.log("1")
+            errorField[0].innerHTML = "*Invailid first name";
+        }
+        if (/^[a-zA-Z]+$/.test(lName) === false) { 
+            isPerfect = false;
+            console.log("2")
+            errorField[1].innerHTML = "* invailid Last name"; 
+        }
+        if (/^[a-zA-Z0-9@#$%&*_]+$/.test(pass) === false) { 
+            isPerfect = false;
+            console.log("3")
+            errorField[2].innerHTML = "*enter vailid keys"; 
+        }
+        if (pass.length <8){
+            isPerfect = false;
+            console.log("4")
+            errorField[2].innerHTML = "*too short value"; 
+        }
+        if (pass !== cPass) { 
+            isPerfect = false;
+            console.log("4")
+            errorField[3].innerHTML = "*password not matched"; 
+        }
+        console.log(isPerfect);
+        return isPerfect
+    }
+</script>
