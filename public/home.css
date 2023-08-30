@@ -76,6 +76,9 @@ hr{
     font-family: 'Poppins', sans-serif;
     padding: 5px 20px;
 }
+.description{
+    overflow-y: scroll;
+}
 textarea{
     margin-left: 90px;
     background-color:rgba(241, 238, 238, 0.904) ;
@@ -122,6 +125,7 @@ form{
     display: flex;
     justify-content: space-evenly;
     margin-left: 20px;
+    margin-top: 20px;
 }
 span{
     display: inline-block;

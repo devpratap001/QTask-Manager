@@ -69,8 +69,8 @@ app.post("/home", async (req, res, next) => {
     const _pass = req.body.password;
     const value = await user.find({ email: _email, password: _pass });
     const url = `${req.protocol}://${req.hostname}:${port}${req.originalUrl}`;
-    res.cookie("url", url);
-    res.cookie("email", _email);
+    res.cookie("url", url, {sameSite: "strict"});
+    res.cookie("email", _email, {sameSite: "strict"});
     if (value.length >= 1) {
         res.render("homePage.handlebars", {
             fName: `${value[0].firstName}`,
@@ -99,6 +99,22 @@ app.post("/home/todoPosted/:userEmail", async (req, res) => {
         }
     } catch (error) {
         console.log(error)
+    }
+})
+
+app.get("/home/todoFetch/:userEmail", async (req, res) => {
+    try {
+        const userDoc = await toDo.findOne({ Email: req.params.userEmail }, { _id: 0, todos: 1 });
+        res.send(userDoc.todos)
+    } catch (err) {
+        console.log("an error occurred")
+    }
+})
+app.delete("/home/todoFetch/:email/:id", async (req, res)=>{
+    try {
+        const deleteData= await toDo.updateOne({Email: req.params.email}, {$pull: {todos: {_id: req.params.id}}}, {multi:true});
+    } catch (error) {
+        console.log("error")
     }
 })
 
