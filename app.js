@@ -1,17 +1,19 @@
 // import the necessary packages 
 const express = require("express");
 const mongoose = require("mongoose");
-const {engine} = require("express-handlebars");
+const { engine } = require("express-handlebars");
+const cookieParser = require("cookie-parser")
 require("./db/conn.js");
-const user = require("./db/model");
+const { user, toDo, template } = require("./db/model");
 const app = express();
 
 // initiation of packages 
 
 const port = process.env.PORT || 8000
+app.use(cookieParser());
 app.use(express.json());
-app.use(express.urlencoded({extended: false}));
-app.use(express.static(__dirname+ "/public"));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(__dirname + "/public"));
 
 // connect with handlebars 
 
@@ -31,7 +33,7 @@ app.get("/", async (req, res, next) => {
 
 app.get("/register", async (req, res, next) => {
     try {
-        res.render("register", {layout: "register.handlebars"});
+        res.render("register", { layout: "register.handlebars" });
     } catch (error) {
         res.status(400).send(error)
     }
@@ -39,16 +41,64 @@ app.get("/register", async (req, res, next) => {
 
 app.get("/login", async (req, res, next) => {
     try {
-        res.render("login", {layout: "register.handlebars"});
+        res.render("login", { layout: "register.handlebars" });
     } catch (error) {
         res.status(400).send(error)
     }
 })
 app.post("/login", async (req, res, next) => {
     try {
-        res.render("login", {layout: "register.handlebars"});
+        const emailList = await user.find().select({ email: 1 });
+        const emails = [];
+        await emailList.forEach((value) => {
+            emails.push(value.email)
+        })
+        if (emails.includes(req.body.email) === false) {
+            const newUser = new user(req.body);
+            await newUser.save();
+            res.redirect("/login")
+        } else {
+            res.redirect("/register")
+        }
     } catch (error) {
         res.status(400).send(error)
+    }
+})
+app.post("/home", async (req, res, next) => {
+    var _email = req.body.email;
+    const _pass = req.body.password;
+    const value = await user.find({ email: _email, password: _pass });
+    const url = `${req.protocol}://${req.hostname}:${port}${req.originalUrl}`;
+    res.cookie("url", url);
+    res.cookie("email", _email);
+    if (value.length >= 1) {
+        res.render("homePage.handlebars", {
+            fName: `${value[0].firstName}`,
+            lName: `${value[0].lastName}`,
+            layout: "homeLayout.handlebars"
+        })
+    } else {
+        res.redirect("/login")
+    }
+})
+
+app.get("/home/todoTemp", async (req, res, next) => {
+    const temp = await template.findOne({ name: "todo" }, { data: 1, _id: 0 });
+    res.send(temp.data);
+})
+
+app.post("/home/todoPosted/:userEmail", async (req, res) => {
+    try {
+        const value = await toDo.find({ Email: req.params.userEmail });
+        if (value.length >= 1) {
+            console.log("1")
+            var submitted = await toDo.updateOne({ Email: req.params.userEmail }, { $push: { todos: req.body } });
+        } else {
+            var submitted = new toDo({ Email: req.params.userEmail, todos: [req.body] });
+            const output = await submitted.save();
+        }
+    } catch (error) {
+        console.log(error)
     }
 })
 

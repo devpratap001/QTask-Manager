@@ -28,5 +28,33 @@ const userSchema= new mongoose.Schema({
     }
 });
 
+const templateSchema= new mongoose.Schema({
+    data:String,
+    name: String
+});
+
+const childTodoSchema= new mongoose.Schema({
+    title: String,
+    description: String,
+    from: String,
+    to: String,
+    done: {
+        type:Boolean,
+        default: false
+    }
+})
+
+const toDoSchema= new mongoose.Schema({
+    Email: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    todos: [childTodoSchema]
+})
+
+const template= mongoose.model("template", templateSchema);
+const toDo= mongoose.model("toDo", toDoSchema);
 const user= mongoose.model("user", userSchema);
-module.exports= user
+
+module.exports= {user, toDo, template}
