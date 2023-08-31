@@ -6,14 +6,26 @@
         <div class="calendar">
             Calendar
         </div>
-        <div class="project">
-            Projects
+        <div class="projects">
+            <div class="project">
+                Projects
+            </div>
+            <span class="newProject">+</span>
         </div>
+        <form method="post" id="projectName">
+            <div class="text">Name</div>
+            <div class="text close">X</div><br>
+            <input type="text" name="title" id="field"><br>
+            <input type="submit" value="Create" class="btn">
+        </form>
         <div class="projectList hide">
 
         </div>
         <div class="To-Do">
             To-Do Lists
+        </div>
+        <div class="signout">
+            Sign Out
         </div>
     </div>
     <div class="app">
@@ -34,3 +46,4 @@
     </div>
 </main>
 <script src="/todo.js"></script>
+<script src="/project.js"></script>

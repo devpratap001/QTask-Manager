@@ -5,6 +5,7 @@ const { engine } = require("express-handlebars");
 const cookieParser = require("cookie-parser")
 require("./db/conn.js");
 const { user, toDo, template } = require("./db/model");
+const projectRouter= require("./routes/projectRouter.js")
 const app = express();
 
 // initiation of packages 
@@ -82,6 +83,8 @@ app.post("/home", async (req, res, next) => {
     }
 })
 
+// todo list part of  app starts here 
+
 app.get("/home/todoTemp", async (req, res, next) => {
     const temp = await template.findOne({ name: "todo" }, { data: 1, _id: 0 });
     res.send(temp.data);
@@ -117,6 +120,10 @@ app.delete("/home/todoFetch/:email/:id", async (req, res)=>{
         console.log("error")
     }
 })
+
+// todo list part ends here 
+// project part starts 
+app.use("/home/projects", projectRouter);
 
 app.listen(port, (err) => {
     if (err) {

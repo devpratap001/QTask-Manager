@@ -53,8 +53,32 @@ const toDoSchema= new mongoose.Schema({
     todos: [childTodoSchema]
 })
 
+const otherSchema= new mongoose.Schema({
+    name: {
+        type: String,
+        unique: true
+    },
+    data:  [childTodoSchema]
+})
+
+const listSchema= new mongoose.Schema({
+    id: Number,
+    name: String
+})
+
+const projecListSchema= new mongoose.Schema({
+    Email: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    projects: [listSchema] 
+})
+
 const template= mongoose.model("template", templateSchema);
 const toDo= mongoose.model("toDo", toDoSchema);
 const user= mongoose.model("user", userSchema);
+const project= mongoose.model("project", otherSchema);
+const projectList= mongoose.model("projectList", projecListSchema);
 
-module.exports= {user, toDo, template}
+module.exports= {user, toDo, template, project, projectList}

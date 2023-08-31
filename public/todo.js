@@ -5,6 +5,12 @@ function getCookie(_name) {
     return array[n]
 }
 
+// signout user from the page 
+
+document.querySelector(".signout").onclick= function (){
+    window.location.replace("/login");
+};
+
 // delete todo from database 
 
 function deleteToDo (emai, val){
@@ -61,25 +67,11 @@ function loadData() {
 
 // page ux design 
 
-var todos = document.querySelector(".To-Do");
-document.querySelector(".project").addEventListener("click", () => {
-    todos.classList.remove("highlight")
-    var list = document.querySelector(".projectList");
-    var projects = document.querySelector(".project")
-    if (list.classList.contains("hide")) {
-        list.classList.remove("hide")
-        projects.classList.add("highlight")
-    } else {
-        list.classList.add("hide")
-        projects.classList.remove("highlight")
-    }
-})
-
 var date = new Date()
 document.querySelector(".date").innerHTML = date;
 
 document.querySelector(".To-Do").addEventListener("click", async () => {
-
+    document.querySelector(".mainContent").innerHTML = "";
     let dataText = await fetch(`${getCookie("url")}/todoTemp`);
     let data = await dataText.text();
     document.querySelector(".mainContent").innerHTML = data;

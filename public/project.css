@@ -1,0 +1,43 @@
+#projectName{
+    border: 2px solid rgb(109, 108, 108);
+    display: none;
+    border-radius: 5px;
+    position: absolute;
+    background-color:rgba(241, 238, 238, 0.904) ;
+    padding: 20px;
+    left: 150px;
+    top: 30vh;
+    z-index: 3;
+}
+.close{
+    float: right;
+    cursor: pointer;
+}
+.projectList{
+    position: relative;
+    width: 200px;
+    min-height: 35vh;
+    background-color: rgba(241, 238, 238, 0.904);
+    border-radius: 10px;
+    margin-left: 30px;
+    font-family: 'Poppins', sans-serif;
+    height: max-content;
+    display: grid;
+    grid-template-columns: 200px;
+    row-gap: 20px;
+}
+.newProject{
+    position: absolute;
+    left: 200px;
+    width: 15px;
+    height: 17px;
+    z-index: 2;
+    font-weight: bolder;
+    cursor: pointer;
+}
+.hide{
+    display: none;
+}
+.projectItem{
+    cursor: pointer;
+}

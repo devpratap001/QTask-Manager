@@ -3,12 +3,7 @@
     padding: 0;
     box-sizing: border-box;
 }
-body::before{
-    position: absolute;
-    content: " ";
-    z-index: -1;
-    width: 100vw;
-    height: 100vh;
+body{
     background-color: rgba(241, 238, 238, 0.904);
 }
 main{
@@ -18,27 +13,24 @@ main{
     display: flex;
     flex-direction: column;
     width: 250px;
-    height: 100vh;
+    min-height: 100vh;
+    height: max-content;
     border-top-right-radius: 30px;
     border-bottom-right-radius: 30px;
     background-color: white;
-}
-.projectList{
-    position: relative;
-    width: 200px;
-    height: 35vh;
-    background-color: 241, 238, 238, 0.904;
-    margin-left: 30px;
-    font-family: 'Poppins', sans-serif;
-}
-.hide{
-    display: none;
 }
 .highlight{
     background-color: rgba(241, 238, 238, 0.904);
     border-radius: 5px;
 }
-.To-Do, .project, .calendar{
+.project{
+    width: 180px;
+}
+.projects{
+    display: flex;
+    align-items: center;
+}
+.To-Do, .project, .calendar, .signout{
     margin: 15px 10px;
     padding-top: 5px;
     padding-bottom: 5px;
