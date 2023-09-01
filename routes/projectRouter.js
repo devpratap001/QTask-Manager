@@ -1,6 +1,8 @@
 const express = require("express");
 const { template, project, projectList } = require("../db/model");
 const projectRouter = new express.Router();
+projectRouter.use(express.urlencoded({extended: true}));
+projectRouter.use(express.json());
 
 projectRouter.get("/temp", async (req, res)=>{
     try {
@@ -31,6 +33,34 @@ projectRouter.get("/list/:email", async (req, res)=>{
     const listNames= await projectList.find({Email: req.params.email});
     if (listNames.length >=1){
         res.send(listNames[0]);
+    }
+})
+
+projectRouter.post("/addtask/:taskName", async (req, res)=>{
+    try {
+        if ((await project.find({name: req.params.taskName})).length >=1){
+            const newTask= await project.updateOne({name: req.params.taskName},  {$push: {data: req.body}})
+        }
+    } catch (error) {
+        console.log("error")
+    }
+})
+
+projectRouter.get("/getTasks/:taskName", async (req, res)=>{
+    try {
+        const taskData= await project.findOne({name: req.params.taskName})
+        res.send(taskData.data)
+    } catch (error) {
+        console.log("error")
+    }
+})
+
+projectRouter.delete("/deletetask/:taskName/:taskId", async (req, res)=>{
+    try {    
+        const data= await project.updateOne({name: req.params.taskName}, {$pull: {data: {_id: req.params.taskId}}});
+        res.send(data)
+    } catch (error) {
+        console.log("error")
     }
 })
 
