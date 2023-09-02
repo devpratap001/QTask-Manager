@@ -95,3 +95,16 @@ document.querySelector(".To-Do").addEventListener("click", async () => {
         return false;
     })
 })
+
+// handling resposiveness 
+
+document.querySelector(".dashboard").onclick= function () {
+    document.querySelector(".navigation").style= 
+    "width:250px;position:absolute;top:0;left:0;z-index:2;";
+    document.querySelector(".newProject").style= "display:inline-block;"
+}
+document.querySelector(".leftSwipe").onclick= function () {
+    document.querySelector(".navigation").style= 
+    "width:0px; position:relative;";
+    document.querySelector(".newProject").style= "display:none;"
+}

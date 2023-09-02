@@ -38,7 +38,7 @@ body::before{
     font-family: 'Poppins', sans-serif;
 }
 #field{
-    width: 250px;
+    width:80%;
     margin-left: 15px;
     padding: 5px;
     border: none;
@@ -61,4 +61,34 @@ input[type="submit"]{
     padding-left: 20px;
     color: rgb(194, 20, 20);
     font-size: 0.8rem;
+}
+@media screen and (max-width:950px){
+    .register{
+        width: 40vw;
+        left: 30vw;
+    }
+    .login{
+        width: 40vw;
+        left: 30vw;
+    }
+}
+@media screen and (max-width:750px){
+    .register{
+        width: 55vw;
+        left: 22vw;
+    }
+    .login{
+        width: 55vw;
+        left: 22vw;
+    }
+}
+@media screen and (max-width:500px){
+    .register{
+        width: 90vw;
+        left: 5vw;
+    }
+    .login{
+        width: 90vw;
+        left: 5vw;
+    }
 }

@@ -6,6 +6,8 @@ function getCookie(_name) {
     return array[n]
 }
 
+// clicking effcts on project list items 
+
 function highlightProjectName(){
     document.querySelectorAll(".projectItem").forEach((element) => {
         element.onclick = function () {
@@ -19,6 +21,8 @@ function highlightProjectName(){
         }
     })
 }
+
+// adding a new project 
 
 const newProject = document.querySelector(".newProject");
 

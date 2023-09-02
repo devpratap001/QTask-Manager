@@ -105,6 +105,8 @@ app.post("/home/todoPosted/:userEmail", async (req, res) => {
     }
 })
 
+// fetch todos list 
+
 app.get("/home/todoFetch/:userEmail", async (req, res) => {
     try {
         const userDoc = await toDo.findOne({ Email: req.params.userEmail }, { _id: 0, todos: 1 });
@@ -113,6 +115,9 @@ app.get("/home/todoFetch/:userEmail", async (req, res) => {
         console.log("an error occurred")
     }
 })
+
+// delete todos 
+
 app.delete("/home/todoFetch/:email/:id", async (req, res)=>{
     try {
         const deleteData= await toDo.updateOne({Email: req.params.email}, {$pull: {todos: {_id: req.params.id}}}, {multi:true});

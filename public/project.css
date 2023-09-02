@@ -17,11 +17,12 @@
     position: relative;
     width: 200px;
     min-height: 35vh;
+    height: 60vh;
+    overflow: scroll;
     background-color: rgba(241, 238, 238, 0.904);
     border-radius: 10px;
     margin-left: 30px;
     font-family: 'Poppins', sans-serif;
-    height: max-content;
     display: grid;
     grid-template-columns: 200px;
     row-gap: 20px;
