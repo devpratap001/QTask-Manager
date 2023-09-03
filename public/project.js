@@ -91,9 +91,10 @@ document.querySelector(".project").addEventListener("click", async () => {
 
     if (j === 1) {
         document.querySelector(".mainContent").innerHTML = "";
-        const project_data = await fetch("/home/projects/temp/");
+        const project_data = await fetch("/home/projects/temp");
         const response = await project_data.text();
         document.querySelector(".mainContent").innerHTML = response;
+        console.log(response)
     }
     j++;
 

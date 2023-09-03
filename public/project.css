@@ -16,8 +16,8 @@
 .projectList{
     position: relative;
     width: 200px;
-    min-height: 35vh;
-    height: 60vh;
+    max-height: 60vh;
+    height: max-content;
     overflow: scroll;
     background-color: rgba(241, 238, 238, 0.904);
     border-radius: 10px;
@@ -41,4 +41,10 @@
 }
 .projectItem{
     cursor: pointer;
+    height: max-content;
+}
+@media screen and (max-width:450px){
+    #projectName{
+        left: 20px;
+    }
 }

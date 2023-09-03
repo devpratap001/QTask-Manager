@@ -49,12 +49,8 @@ app.get("/login", async (req, res, next) => {
 })
 app.post("/login", async (req, res, next) => {
     try {
-        const emailList = await user.find().select({ email: 1 });
-        const emails = [];
-        await emailList.forEach((value) => {
-            emails.push(value.email)
-        })
-        if (emails.includes(req.body.email) === false) {
+        const data= await user.find({email: req.body.email})
+        if ((await user.find({email: req.body.email})).length < 1) {
             const newUser = new user(req.body);
             await newUser.save();
             res.redirect("/login")
@@ -86,15 +82,18 @@ app.post("/home", async (req, res, next) => {
 // todo list part of  app starts here 
 
 app.get("/home/todoTemp", async (req, res, next) => {
-    const temp = await template.findOne({ name: "todo" }, { data: 1, _id: 0 });
-    res.send(temp.data);
+    try {
+        const temp = await template.findOne({ name: "todo" }, { data: 1, _id: 0 });
+        res.send(temp.data);
+    } catch (error) {
+        console.log(error)
+    }
 })
 
 app.post("/home/todoPosted/:userEmail", async (req, res) => {
     try {
         const value = await toDo.find({ Email: req.params.userEmail });
         if (value.length >= 1) {
-            console.log("1")
             var submitted = await toDo.updateOne({ Email: req.params.userEmail }, { $push: { todos: req.body } });
         } else {
             var submitted = new toDo({ Email: req.params.userEmail, todos: [req.body] });

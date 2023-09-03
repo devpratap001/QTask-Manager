@@ -3,11 +3,12 @@ const { template, project, projectList } = require("../db/model");
 const projectRouter = new express.Router();
 projectRouter.use(express.urlencoded({extended: true}));
 projectRouter.use(express.json());
+projectRouter.use(express.text());
 
 projectRouter.get("/temp", async (req, res)=>{
     try {
-        const data= await template.find({name: "project"});
-        res.send(data[0].data);
+        const data= await template.findOne({name: "project"}, {_id:0, data:1});
+        res.send(data.data);
     } catch (error) {
         console.log("error")
     }
