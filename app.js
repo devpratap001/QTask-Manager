@@ -1,4 +1,5 @@
 // import the necessary packages 
+require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const { engine } = require("express-handlebars");

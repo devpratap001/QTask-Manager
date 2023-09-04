@@ -1,4 +1,7 @@
 const mongoose= require("mongoose");
+const encrypt= require("mongoose-encryption");
+
+// schema definition 
 
 const userSchema= new mongoose.Schema({
     firstName: {
@@ -74,6 +77,16 @@ const projecListSchema= new mongoose.Schema({
     },
     projects: [listSchema] 
 })
+
+// encryption plugin addition 
+
+userSchema.plugin(encrypt, {
+    secret: process.env.SECRET,
+    encryptedFields: ["password", "confPassword"],
+    additionalAuthenticatedFields: ["email"]
+})
+
+// model definition 
 
 const template= mongoose.model("template", templateSchema);
 const toDo= mongoose.model("toDo", toDoSchema);
