@@ -64,15 +64,15 @@ app.post("/login", async (req, res, next) => {
 })
 app.post("/home", async (req, res, next) => {
     var _email = req.body.email;
-    const _pass = req.body.password;
-    const value = await user.find({ email: _email, password: _pass });
+    const _passwd = req.body.password;
+    const value = await user.findOne({ email: _email});
     const url = `${req.protocol}://${req.hostname}:${port}${req.originalUrl}`;
     res.cookie("url", url, {sameSite: "strict"});
     res.cookie("email", _email, {sameSite: "strict"});
-    if (value.length >= 1) {
+    if (value.password === _passwd) {
         res.render("homePage.handlebars", {
-            fName: `${value[0].firstName}`,
-            lName: `${value[0].lastName}`,
+            fName: `${value.firstName}`,
+            lName: `${value.lastName}`,
             layout: "homeLayout.handlebars"
         })
     } else {
