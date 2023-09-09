@@ -8,7 +8,7 @@ function getCookie(_name) {
 
 // clicking effcts on project list items 
 
-function highlightProjectName(){
+function highlightProjectName() {
     document.querySelectorAll(".projectItem").forEach((element) => {
         element.onclick = function () {
             const projectList = document.querySelector(".projectList");
@@ -89,13 +89,13 @@ document.querySelector(".project").addEventListener("click", async () => {
         document.querySelector(".active").innerHTML = "";
     }
 
-    if (j === 1) {
-        document.querySelector(".mainContent").innerHTML = "";
-        const project_data = await fetch("/home/projects/temp");
-        const response = await project_data.text();
-        document.querySelector(".mainContent").innerHTML = response;
-        console.log(response)
-    }
+    // loading the project template 
+
+    document.querySelector(".mainContent").innerHTML = "";
+    const project_data = await fetch("/home/projects/temp");
+    const response = await project_data.text();
+    document.querySelector(".mainContent").innerHTML = response;
+    console.log(response)
     j++;
 
     // clicking individual project Name 
@@ -103,22 +103,24 @@ document.querySelector(".project").addEventListener("click", async () => {
 
     // add tasks to the projects 
 
-    document.querySelector("#project").addEventListener("submit", async (Event) => {
-        Event.preventDefault();
-        const form_data = new FormData(document.querySelector("#project"));
-        const taskdata = new URLSearchParams(form_data)
+    if (document.querySelector('#project')) {
+        document.querySelector("#project").addEventListener("submit", async (Event) => {
+            Event.preventDefault();
+            const form_data = new FormData(document.querySelector("#project"));
+            const taskdata = new URLSearchParams(form_data)
 
-        // post data to the server 
+            // post data to the server 
 
-        const projName = document.querySelector(".active").innerHTML;
-        if (projName !== "") {
-            const data = await fetch("/home/projects/addtask/" + projName, {
-                method: "POST",
-                body: taskdata
-            })
-            const dataSubmitted = await data.json();
-        }
-    })
+            const projName = document.querySelector(".active").innerHTML;
+            if (projName !== "") {
+                const data = await fetch("/home/projects/addtask/" + projName, {
+                    method: "POST",
+                    body: taskdata
+                })
+                const dataSubmitted = await data.json();
+            }
+        })
+    }
 
 })
 

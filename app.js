@@ -6,7 +6,7 @@ const { engine } = require("express-handlebars");
 const cookieParser = require("cookie-parser")
 require("./db/conn.js");
 const { user, toDo, template } = require("./db/model");
-const projectRouter= require("./routes/projectRouter.js")
+const projectRouter = require("./routes/projectRouter.js")
 const app = express();
 
 // initiation of packages 
@@ -50,8 +50,8 @@ app.get("/login", async (req, res, next) => {
 })
 app.post("/login", async (req, res, next) => {
     try {
-        const data= await user.find({email: req.body.email})
-        if ((await user.find({email: req.body.email})).length < 1) {
+        const data = await user.find({ email: req.body.email })
+        if ((await user.find({ email: req.body.email })).length < 1) {
             const newUser = new user(req.body);
             await newUser.save();
             res.redirect("/login")
@@ -63,20 +63,28 @@ app.post("/login", async (req, res, next) => {
     }
 })
 app.post("/home", async (req, res, next) => {
-    var _email = req.body.email;
-    const _passwd = req.body.password;
-    const value = await user.findOne({ email: _email});
-    const url = `${req.protocol}://${req.hostname}:${port}${req.originalUrl}`;
-    res.cookie("url", url, {sameSite: "strict"});
-    res.cookie("email", _email, {sameSite: "strict"});
-    if (value.password === _passwd) {
-        res.render("homePage.handlebars", {
-            fName: `${value.firstName}`,
-            lName: `${value.lastName}`,
-            layout: "homeLayout.handlebars"
-        })
-    } else {
-        res.redirect("/login")
+    try {
+        var _email = req.body.email;
+        const _passwd = req.body.password;
+        const value = await user.findOne({ email: _email });
+        const url = `${req.protocol}://${req.hostname}:${port}${req.originalUrl}`;
+        res.cookie("url", url, { sameSite: "strict" });
+        res.cookie("email", _email, { sameSite: "strict" });
+        if (value){
+            if (value.password === _passwd) {
+                res.render("homePage.handlebars", {
+                    fName: `${value.firstName}`,
+                    lName: `${value.lastName}`,
+                    layout: "homeLayout.handlebars"
+                })
+            } else {
+                res.redirect("/login")
+            }
+        } else {
+            res.redirect("/login")
+        }
+    } catch (err){
+        console.log(err)
     }
 })
 
@@ -118,9 +126,9 @@ app.get("/home/todoFetch/:userEmail", async (req, res) => {
 
 // delete todos 
 
-app.delete("/home/todoFetch/:email/:id", async (req, res)=>{
+app.delete("/home/todoFetch/:email/:id", async (req, res) => {
     try {
-        const deleteData= await toDo.updateOne({Email: req.params.email}, {$pull: {todos: {_id: req.params.id}}}, {multi:true});
+        const deleteData = await toDo.updateOne({ Email: req.params.email }, { $pull: { todos: { _id: req.params.id } } }, { multi: true });
     } catch (error) {
         console.log("error")
     }
